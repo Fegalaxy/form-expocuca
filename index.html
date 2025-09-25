@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Formulário Expocuca</title>
+  <link rel="stylesheet" href="css-index.css">
+</head>
+<body>
+
+  <h2>Formulário Expocuca</h2>
+
+  <form id="formulario">
+
+    <!-- Campos visíveis -->
+    <label for="nome">Nome (obrigatório):</label><br>
+    <input type="text" id="nome" name="nome" required><br><br>
+
+    <label for="sobrenome">Sobrenome (opcional):</label><br>
+    <input type="text" id="sobrenome" name="sobrenome"><br><br>
+
+    <label for="idade">Idade (obrigatório):</label><br>
+    <input type="number" id="idade" name="idade" required><br><br>
+
+    <label for="escolaridade">Escolaridade (obrigatório):</label><br>
+    <input type="text" id="escolaridade" name="escolaridade" required><br><br>
+
+    <label for="opiniao_evento">O que você está achando do evento em geral? (opcional):</label><br>
+    <textarea id="opiniao_evento" name="opiniao_evento" rows="3" cols="40"></textarea><br><br>
+
+    <label for="opiniao_cursos">O que você achou/está achando dos cursos? (opcional):</label><br>
+    <textarea id="opiniao_cursos" name="opiniao_cursos" rows="3" cols="40"></textarea><br><br>
+
+    <button type="submit">Enviar</button>
+
+  </form>
+
+  <script>
+    const form = document.getElementById('formulario')
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault() // evita o comportamento padrão (recarregar a página)
+
+      const formData = new FormData(form)
+      const data = Object.fromEntries(formData.entries())
+
+      try {
+        const response = await fetch('/.netlify/functions/receber-form', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        })
+
+        if (!response.ok) {
+          throw new Error('Erro ao enviar formulário')
+        }
+
+        const result = await response.json()
+        alert(result.message)
+
+        // Opcional: redirecionar para página de obrigado
+        window.location.href = 'https://controle-de-visitantes-expocuca.netlify.app/obrigado.html'
+
+      } catch (error) {
+        alert('Erro ao enviar o formulário. Tente novamente.')
+        console.error(error)
+      }
+    })
+  </script>
+
+</body>
+</html>
