@@ -42,3 +42,10 @@ export async function handler(event, context) {
     body: JSON.stringify({ message: 'Dados salvos com sucesso!' })
   }
 }
+
+exports.handler = async (event) => {
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ message: "Função funcionando 🚀" })
+  }
+}
