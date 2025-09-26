@@ -11,34 +11,35 @@
 
   <form id="formulario">
 
-    <!-- Campos visíveis -->
-    <label for="nome">Nome (obrigatório):</label><br>
-    <input type="text" id="nome" name="nome" required><br><br>
+    <label for="nome">Nome (obrigatório):</label>
+    <input type="text" id="nome" name="nome" required>
 
-    <label for="sobrenome">Sobrenome (opcional):</label><br>
-    <input type="text" id="sobrenome" name="sobrenome"><br><br>
+    <label for="sobrenome">Sobrenome (opcional):</label>
+    <input type="text" id="sobrenome" name="sobrenome">
 
-    <label for="idade">Idade (obrigatório):</label><br>
-    <input type="number" id="idade" name="idade" required><br><br>
+    <label for="email">Email (obrigatório):</label>
+    <input type="email" id="email" name="email" required>
 
-    <label for="escolaridade">Escolaridade (obrigatório):</label><br>
-    <input type="text" id="escolaridade" name="escolaridade" required><br><br>
+    <label for="idade">Idade (obrigatório):</label>
+    <input type="number" id="idade" name="idade" required>
 
-    <label for="opiniao_evento">O que você está achando do evento em geral? (opcional):</label><br>
-    <textarea id="opiniao_evento" name="opiniao_evento" rows="3" cols="40"></textarea><br><br>
+    <label for="escolaridade">Escolaridade (obrigatório):</label>
+    <input type="text" id="escolaridade" name="escolaridade" required>
 
-    <label for="opiniao_cursos">O que você achou/está achando dos cursos? (opcional):</label><br>
-    <textarea id="opiniao_cursos" name="opiniao_cursos" rows="3" cols="40"></textarea><br><br>
+    <label for="opiniao_evento">O que você está achando do evento em geral? (opcional):</label>
+    <textarea id="opiniao_evento" name="opiniao_evento" rows="3"></textarea>
+
+    <label for="opiniao_cursos">O que você achou/está achando dos cursos? (opcional):</label>
+    <textarea id="opiniao_cursos" name="opiniao_cursos" rows="3"></textarea>
 
     <button type="submit">Enviar</button>
-
   </form>
 
   <script>
     const form = document.getElementById('formulario')
 
     form.addEventListener('submit', async (e) => {
-      e.preventDefault() // evita o comportamento padrão (recarregar a página)
+      e.preventDefault()
 
       const formData = new FormData(form)
       const data = Object.fromEntries(formData.entries())
@@ -46,9 +47,7 @@
       try {
         const response = await fetch('/.netlify/functions/receber-form', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
         })
 
@@ -59,9 +58,7 @@
         const result = await response.json()
         alert(result.message)
 
-        // Opcional: redirecionar para página de obrigado
         window.location.href = 'https://controle-de-visitantes-expocuca.netlify.app/obrigado.html'
-
       } catch (error) {
         alert('Erro ao enviar o formulário. Tente novamente.')
         console.error(error)
