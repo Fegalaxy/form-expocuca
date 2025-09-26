@@ -28,7 +28,6 @@ form {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center; /* centraliza conteúdo interno */
 }
 
 /* Ajusta os labels para alinharem no centro também */
