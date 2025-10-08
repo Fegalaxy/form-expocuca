@@ -1,16 +1,18 @@
+// api/receber-form.js
 import { createClient } from '@supabase/supabase-js'
 
+// Pegando variáveis de ambiente configuradas no Vercel
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-export async function handler(event) {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' }
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method Not Allowed' })
   }
 
   try {
-    const data = JSON.parse(event.body)
+    const data = req.body
     console.log("📩 Dados recebidos:", data)
 
     const { error } = await supabase.from('responses').insert([
@@ -31,13 +33,13 @@ export async function handler(event) {
 
     if (error) {
       console.error("❌ Erro Supabase:", error)
-      return { statusCode: 500, body: JSON.stringify({ message: 'Erro ao salvar os dados', error }) }
+      return res.status(500).json({ message: 'Erro ao salvar os dados', error })
     }
 
-    return { statusCode: 200, body: JSON.stringify({ message: 'Dados salvos com sucesso!' }) }
+    return res.status(200).json({ message: 'Dados salvos com sucesso!' })
 
   } catch (err) {
     console.error("⚠️ Erro inesperado:", err)
-    return { statusCode: 500, body: JSON.stringify({ message: 'Erro inesperado', error: err.message }) }
+    return res.status(500).json({ message: 'Erro inesperado', error: err.message })
   }
 }
