@@ -1,5 +1,5 @@
-document.getElementById("formulario").addEventListener("submit", async (e) => {
-  e.preventDefault();
+document.getElementById("formulario").addEventListener("submit", async (evento) => {
+  evento.preventDefault();
 
   const data = {
     nome: document.getElementById("nome").value,
@@ -15,7 +15,7 @@ document.getElementById("formulario").addEventListener("submit", async (e) => {
     opiniao_cursos: document.getElementById("opiniao_cursos").value
   };
 
-  const response = await fetch("/.netlify/functions/receber-form", {
+  const response = await fetch("/api/receber-form", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
