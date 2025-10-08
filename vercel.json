@@ -2,13 +2,14 @@
   "version": 2,
   "builds": [
     { "src": "api/receber-form.js", "use": "@vercel/node" },
-    { "src": "index.html", "use": "@vercel/static" }
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "css-index.css", "use": "@vercel/static" },
+    { "src": "script.js", "use": "@vercel/static" }
   ],
- "routes": [
-  { "src": "/api/(.*)", "dest": "/api/$1" },
-  { "src": "/(.*\\.css)$", "dest": "/$1" },
-  { "src": "/(.*\\.js)$", "dest": "/$1" },
-  { "src": "/(.*)", "dest": "/index.html" }
-]
-
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1" },
+    { "src": "/css-index.css", "dest": "/css-index.css" },
+    { "src": "/script.js", "dest": "/script.js" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ]
 }
