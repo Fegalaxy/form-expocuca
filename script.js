@@ -22,5 +22,6 @@ document.getElementById("formulario").addEventListener("submit", async (evento) 
   });
 
   const result = await response.json();
-  alert(result.message);
+  document.href="obrigado.html";
 });
+
