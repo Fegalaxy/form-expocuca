@@ -15,7 +15,7 @@ document.getElementById("formulario").addEventListener("submit", async (evento) 
     opiniao_cursos: document.getElementById("opiniao_cursos").value
   };
 
-  const response = await fetch("/api/receber-form", {
+  const response = await fetch("/api/receber-form.js", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
