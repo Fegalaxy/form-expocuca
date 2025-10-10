@@ -1,36 +1,32 @@
-document.getElementById("formulario").addEventListener("submit", async (evento) => {
+const formulario = document.getElementById("formulario");
+
+formulario.addEventListener("submit", async (evento) => {
   evento.preventDefault();
 
   // Campos obrigatórios
-  const camposObrigatorios = [
-    "nome",
-    "email",
-    "cpf",
-    "telefone",
-    "endereco",
-    "tipo",
-    "interesse_curso"
-  ];
+  const obrigatorios = ["nome", "sobrenome", "email", "cpf", "telefone", "endereco", "tipo", "idade"];
+  let todosPreenchidos = true;
 
-  // Verifica se todos os obrigatórios estão preenchidos
-  let faltando = [];
-  camposObrigatorios.forEach(campo => {
-    const valor = document.getElementById(campo).value.trim();
+  // Resetar bordas
+  obrigatorios.forEach(id => {
+    document.getElementById(id).style.borderColor = "#94a1b2"; // cor padrão
+  });
+
+  // Verificar se todos os obrigatórios foram preenchidos
+  obrigatorios.forEach(id => {
+    const valor = document.getElementById(id).value.trim();
     if (!valor) {
-      faltando.push(campo);
+      document.getElementById(id).style.borderColor = "red";
+      todosPreenchidos = false;
     }
   });
 
-  // Se faltar algo, mostra alerta e interrompe
-  if (faltando.length > 0) {
-    alert("⚠️ Por favor, preencha todos os campos obrigatórios antes de enviar.");
-    faltando.forEach(id => {
-      document.getElementById(id).style.borderColor = "red";
-    });
+  if (!todosPreenchidos) {
+    alert("Por favor, preencha todos os campos obrigatórios.");
     return;
   }
 
-  // Se tudo estiver certo, coleta os dados
+  // Montar objeto de envio
   const data = {
     nome: document.getElementById("nome").value,
     sobrenome: document.getElementById("sobrenome").value,
@@ -43,26 +39,25 @@ document.getElementById("formulario").addEventListener("submit", async (evento) 
     escolaridade: document.getElementById("escolaridade").value,
     opiniao_evento: document.getElementById("opiniao_evento").value,
     opiniao_cursos: document.getElementById("opiniao_cursos").value,
-    interesse_curso: document.getElementById("interesse_curso").value
+    interesse_curso: document.querySelector('input[name="interesse_curso"]:checked')?.value || ""
   };
 
   try {
-    const response = await fetch("/api/receber-form", {
+    const response = await fetch("/api/receber-form.js", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
 
+    const result = await response.json();
     if (response.ok) {
-      // Feedback visual (opcional)
-      alert("✅ Formulário enviado com sucesso!");
-      // Redireciona para página de obrigado
-      window.location.href = "obrigado.html";
+      // Redirecionar para a página de obrigado
+      window.location.href = "/obrigado.html";
     } else {
-      alert("❌ Erro ao enviar o formulário. Tente novamente.");
+      alert(result.message || "Erro ao enviar formulário.");
     }
-  } catch (error) {
-    console.error("Erro:", error);
-    alert("⚠️ Ocorreu um erro ao enviar o formulário. Tente novamente.");
+  } catch (err) {
+    console.error("Erro inesperado:", err);
+    alert("Erro inesperado. Tente novamente.");
   }
 });
