@@ -1,7 +1,5 @@
-// api/receber-form.js
 import { createClient } from '@supabase/supabase-js'
 
-// Pegando variáveis de ambiente configuradas no Vercel
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
@@ -27,7 +25,8 @@ export default async function handler(req, res) {
         idade: data.idade,
         escolaridade: data.escolaridade,
         opiniao_evento: data.opiniao_evento,
-        opiniao_cursos: data.opiniao_cursos
+        opiniao_cursos: data.opiniao_cursos,
+        interesse_curso: data.interesse_curso
       }
     ])
 
