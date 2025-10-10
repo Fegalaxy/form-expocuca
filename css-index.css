@@ -1,14 +1,12 @@
-
-
 /* Centraliza todo o conteúdo da página */
 body {
   background: #f7f9fc;
   padding: 20px;
   display: flex;
-  flex-direction: column; /* vertical */
-  align-items: center;    /* centraliza horizontalmente */
+  flex-direction: column;
+  align-items: center;
   min-height: 100vh;
-  justify-content: center; /* centraliza verticalmente */
+  justify-content: center;
   font-family: Arial, sans-serif;
 }
 
@@ -26,37 +24,59 @@ form {
   background: #fff;
   padding: 30px 40px;
   border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   max-width: 450px;
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* Ajusta os labels para alinharem no centro também */
+/* Labels */
 label {
   font-weight: 600;
   margin-bottom: 6px;
   color: #0a9396;
   width: 100%;
-  text-align: center; /* centraliza o texto do label */
+  text-align: center;
 }
 
-/* Campos ocupam 100% da largura do form */
+/* Campos (inputs, selects, textarea) */
 input[type="text"],
 input[type="number"],
 input[type="email"],
-textarea,
-select {
+select,
+textarea {
   width: 100%;
   padding: 10px 14px;
   margin-bottom: 20px;
   border: 1.8px solid #94a1b2;
   border-radius: 6px;
   font-size: 1rem;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  transition: border-color 0.3s ease;
   font-family: inherit;
   resize: vertical;
+  box-sizing: border-box;
+}
+
+/* Ao focar */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #0a9396;
+  outline: none;
+}
+
+/* Borda vermelha apenas após tentativa de envio */
+input:invalid,
+select:invalid,
+textarea:invalid {
+  border-color: #94a1b2;
+}
+
+form:has(:invalid):not(:has(:focus)):invalid input:invalid,
+form:has(:invalid):not(:has(:focus)):invalid select:invalid,
+form:has(:invalid):not(:has(:focus)):invalid textarea:invalid {
+  border-color: red;
 }
 
 /* Botão ocupa toda largura do form */
@@ -98,72 +118,4 @@ button:hover {
     padding: 20px;
     max-width: 90%;
   }
-}
-
-
-
-/* Campos inválidos (HTML5 required) */
-input:invalid, select:invalid, textarea:invalid {
-  border-color: #e63946;
-}
-
-/* Campos com erro adicionados via JS */
-input.erro, select.erro, textarea.erro {
-  border-color: #e63946 !important;
-  background-color: #ffe6e6;
-}
-
-/* Animação leve ao marcar erro */
-input.erro, select.erro, textarea.erro {
-  transition: all 0.3s ease;
-}
-
-/* Ao corrigir o campo, volta ao normal */
-input:focus, select:focus, textarea:focus {
-  border-color: #0a9396;
-  background-color: #fff;
-}
-
-
-
-body.obrigado {
-  background-color: #f0f4f8;
-  text-align: center;
-  padding: 50px;
-  justify-content: center;
-}
-
-.caixa {
-  background-color: white;
-  border-radius: 10px;
-  padding: 40px;
-  max-width: 500px;
-  margin: auto;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
-}
-
-h1.obrigado {
-  color: #2e7d32;
-}
-
-p.obrigado {
-  font-size: 18px;
-  color: #333;
-}
-
-.btn-voltar {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #2e7d32;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  text-decoration: none;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.btn-voltar:hover {
-  background-color: #256b28;
 }
