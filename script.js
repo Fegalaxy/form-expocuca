@@ -41,24 +41,18 @@ form.addEventListener("submit", async (e) => {
     interesse_curso: document.getElementById("curso_interesse")?.value || ""
   };
 
-  try {
-    const response = await fetch("/api/receber-form", { // caminho corrigido
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+  // Envia para a API
+  const response = await fetch("/api/receber-form.js", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
 
-    const result = await response.json();
-
-    if (response.ok) {
-      // Redireciona para página de agradecimento
-      window.location.href = "/obrigado.html"; // caminho absoluto
-    } else {
-      alert(result.message || "Erro ao enviar formulário");
-    }
-
-  } catch (err) {
-    console.error("Erro ao enviar formulário:", err);
-    alert("Erro ao enviar formulário. Tente novamente.");
+  const result = await response.json();
+  if (response.ok) {
+    // Redireciona para página de agradecimento
+    window.location.href = "/obrigado.html";
+  } else {
+    alert(result.message || "Erro ao enviar formulário");
   }
 });
