@@ -66,16 +66,10 @@ textarea:focus {
   outline: none;
 }
 
-/* Borda vermelha apenas após tentativa de envio */
-input:invalid,
-select:invalid,
-textarea:invalid {
-  border-color: #94a1b2;
-}
-
-form:has(:invalid):not(:has(:focus)):invalid input:invalid,
-form:has(:invalid):not(:has(:focus)):invalid select:invalid,
-form:has(:invalid):not(:has(:focus)):invalid textarea:invalid {
+/* Borda vermelha apenas quando houver erro (adicionado via JS) */
+input.erro,
+select.erro,
+textarea.erro {
   border-color: red;
 }
 

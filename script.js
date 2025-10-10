@@ -1,32 +1,31 @@
-const formulario = document.getElementById("formulario");
+const form = document.getElementById("formulario");
 
-formulario.addEventListener("submit", async (evento) => {
-  evento.preventDefault();
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-  // Campos obrigatórios
-  const obrigatorios = ["nome", "sobrenome", "email", "cpf", "telefone", "endereco", "tipo", "idade"];
-  let todosPreenchidos = true;
+  let valid = true;
 
-  // Resetar bordas
-  obrigatorios.forEach(id => {
-    document.getElementById(id).style.borderColor = "#94a1b2"; // cor padrão
+  // Limpa erros anteriores
+  form.querySelectorAll("input, select, textarea").forEach(field => {
+    field.classList.remove("erro");
   });
 
-  // Verificar se todos os obrigatórios foram preenchidos
+  // Validação de campos obrigatórios
+  const obrigatorios = ["nome", "sobrenome", "email", "cpf", "telefone", "endereco", "tipo", "idade"];
   obrigatorios.forEach(id => {
-    const valor = document.getElementById(id).value.trim();
-    if (!valor) {
-      document.getElementById(id).style.borderColor = "red";
-      todosPreenchidos = false;
+    const field = document.getElementById(id);
+    if (!field.value.trim()) {
+      field.classList.add("erro");
+      valid = false;
     }
   });
 
-  if (!todosPreenchidos) {
-    alert("Por favor, preencha todos os campos obrigatórios.");
+  if (!valid) {
+    alert("Por favor, preencha todos os campos obrigatórios!");
     return;
   }
 
-  // Montar objeto de envio
+  // Dados do formulário
   const data = {
     nome: document.getElementById("nome").value,
     sobrenome: document.getElementById("sobrenome").value,
@@ -39,25 +38,21 @@ formulario.addEventListener("submit", async (evento) => {
     escolaridade: document.getElementById("escolaridade").value,
     opiniao_evento: document.getElementById("opiniao_evento").value,
     opiniao_cursos: document.getElementById("opiniao_cursos").value,
-    interesse_curso: document.querySelector('input[name="interesse_curso"]:checked')?.value || ""
+    interesse_curso: document.getElementById("interesse_curso")?.value || ""
   };
 
-  try {
-    const response = await fetch("/api/receber-form.js", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    });
+  // Envia para a API
+  const response = await fetch("/api/receber-form.js", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
 
-    const result = await response.json();
-    if (response.ok) {
-      // Redirecionar para a página de obrigado
-      window.location.href = "/obrigado.html";
-    } else {
-      alert(result.message || "Erro ao enviar formulário.");
-    }
-  } catch (err) {
-    console.error("Erro inesperado:", err);
-    alert("Erro inesperado. Tente novamente.");
+  const result = await response.json();
+  if (response.ok) {
+    // Redireciona para página de agradecimento
+    window.location.href = "obrigado.html";
+  } else {
+    alert(result.message || "Erro ao enviar formulário");
   }
 });
